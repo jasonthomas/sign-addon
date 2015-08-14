@@ -1,0 +1,13 @@
+M2Crypto==0.22.3
+cffi==0.9.2
+cryptography==0.9
+enum34==1.0.4
+idna==1.1
+ipaddress==1.0.7
+ndg-httpsclient==0.4.0
+pyOpenSSL==0.15.1
+pyasn1==0.1.7
+pycparser==2.13
+requests==2.7.0
+signing-clients==0.1.14
+six==1.9.0
