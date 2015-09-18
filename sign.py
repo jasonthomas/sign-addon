@@ -55,13 +55,21 @@ def get_guid(file_path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", help="File to sign")
+    parser.add_argument("-g", "--guid",
+                        help="Override guid",
+                        action="store")
     parser.add_argument("-s", "--signer",
                         help="Signing Server Endpoint i.e."
                         "https://localhost/1.0/sign_addon",
                         action="store", required=True)
 
     args = parser.parse_args()
-    guid = get_guid(args.filename)
+
+    if args.guid:
+        guid = args.guid
+    else:
+        guid = get_guid(args.filename)
+
     call_signing(args.filename, guid, args.signer)
 
 
