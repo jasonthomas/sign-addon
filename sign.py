@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import hashlib
 import json
 import re
 import requests
@@ -44,6 +45,15 @@ def call_signing(file_path, guid, endpoint):
     print "{0} signed!".format(file_path)
 
 
+def get_id(guid):
+    """Return the addon GUID if <= 64 chars, or its sha256 hash otherwise.
+    We don't want GUIDs longer than 64 chars: bug 1203365.
+    """
+    if len(guid) <= 64:
+        return guid
+    return hashlib.sha256(guid).hexdigest()
+
+
 def get_guid(file_path):
     """Get e-mail guid of add-on."""
     z = zipfile.ZipFile(file_path)
@@ -52,7 +62,7 @@ def get_guid(file_path):
         try:
             with z.open('install.rdf') as install:
                 match = re.search(r'[\w\.-]+@[\w\.-]+', install.read())
-                return match.group(0)
+                return get_id(match.group(0))
         except:
             print "Unexpected error:", sys.exc_info()[0]
             exit(1)
@@ -60,7 +70,7 @@ def get_guid(file_path):
         try:
             with z.open('manifest.json') as manifest:
                 m = json.loads(manifest.read())
-                return m['applications']['gecko']['id']
+                return get_id(m['applications']['gecko']['id'])
         except:
             print "Unexpected error:", sys.exc_info()[0]
             exit(1)
