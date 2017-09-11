@@ -11,7 +11,6 @@ The following system packages need to be install before you begin:
 git
 pip
 python
-swig (for M2Crypto)
 virtualenv
 ```
 
@@ -32,12 +31,4 @@ Enter username: foobar
 Enter password:
 /path/to/file signed!
 
-```
-
-### Swig + M2Crypto on OSX ###
-I ran into issues getting M2Crypto to build on OSX. Use the following brew formula to get it working:
-```
-brew uninstall swig --force
-brew install homebrew/versions/swig304
-brew link homebrew/versions/swig304
 ```
